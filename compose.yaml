@@ -1,0 +1,15 @@
+services:
+  empadb:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: EmpaDB
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - empadb_data:/var/lib/postgresql/data
+
+volumes:
+  empadb_data:
