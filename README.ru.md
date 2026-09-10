@@ -74,16 +74,31 @@ Vite обычно обслуживает приложение по адресу 
 
 ## Доступные скрипты
 
-| Скрипт                  | Назначение                             |
-| ----------------------- | -------------------------------------- |
-| `npm run start`         | Запускает API-сервер.                  |
-| `npm run watch`         | Запускает API в режиме наблюдения.     |
-| `npm run web-app:dev`   | Запускает сервер разработки фронтенда. |
-| `npm run web-app:build` | Собирает фронтенд в `web-app-dist`.    |
-| `npm run db:migrate`    | Применяет миграции базы данных.        |
-| `npm run db:generate`   | Генерирует миграции Drizzle.           |
-| `npm run build`         | Собирает проект бэкенда.               |
-| `npm run typecheck`     | Выполняет проверку типов TypeScript.   |
+| Скрипт                    | Назначение                                          |
+| ------------------------- | --------------------------------------------------- |
+| `npm run start`           | Запускает API-сервер.                               |
+| `npm run watch`           | Запускает API в режиме наблюдения.                  |
+| `npm run web-app:dev`     | Запускает сервер разработки фронтенда.              |
+| `npm run web-app:build`   | Собирает фронтенд в `web-app-dist`.                 |
+| `npm run db:migrate`      | Применяет миграции базы данных.                     |
+| `npm run db:generate`     | Генерирует миграции Drizzle.                        |
+| `npm run build`           | Собирает проект бэкенда.                            |
+| `npm run typecheck`       | Выполняет проверку типов TypeScript.                |
+| `npm run test:db:migrate` | Применяет миграции изолированной тестовой БД.       |
+| `npm run test:db:reset`   | Очищает изолированную тестовую БД.                  |
+| `npm test`                | Запускает последовательные сценарные тесты сервера. |
+
+## Тесты
+
+Compose также запускает изолированный сервис `EmpaTestDB` на `localhost:5433`. В отдельной оболочке выполните жизненный цикл тестов с явной строкой подключения:
+
+```sh
+export DATABASE_URL='postgresql://postgres:postgres@localhost:5433/EmpaTestDB'
+npm run test:db:migrate
+npm test
+```
+
+Команды миграции и очистки тестовой БД отклоняют любой URL, кроме `EmpaTestDB` на порту `5433` одного из локальных Docker-хостов (`localhost`, loopback, `host.docker.internal` или `empadb-test`). В CI можно разрешить один дополнительный точный hostname через `TEST_DATABASE_CI_HOST`.
 
 ## API, аутентификация и безопасность
 

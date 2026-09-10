@@ -74,16 +74,31 @@ There is no dotenv loader. A `.env` file alone is not automatically loaded, so e
 
 ## Available scripts
 
-| Script                  | Purpose                                 |
-| ----------------------- | --------------------------------------- |
-| `npm run start`         | Start the API server.                   |
-| `npm run watch`         | Start the API in watch mode.            |
-| `npm run web-app:dev`   | Start the frontend development server.  |
-| `npm run web-app:build` | Build the frontend into `web-app-dist`. |
-| `npm run db:migrate`    | Apply database migrations.              |
-| `npm run db:generate`   | Generate Drizzle migrations.            |
-| `npm run build`         | Build the backend project.              |
-| `npm run typecheck`     | Run TypeScript type checking.           |
+| Script                    | Purpose                                 |
+| ------------------------- | --------------------------------------- |
+| `npm run start`           | Start the API server.                   |
+| `npm run watch`           | Start the API in watch mode.            |
+| `npm run web-app:dev`     | Start the frontend development server.  |
+| `npm run web-app:build`   | Build the frontend into `web-app-dist`. |
+| `npm run db:migrate`      | Apply database migrations.              |
+| `npm run db:generate`     | Generate Drizzle migrations.            |
+| `npm run build`           | Build the backend project.              |
+| `npm run typecheck`       | Run TypeScript type checking.           |
+| `npm run test:db:migrate` | Migrate the isolated test database.     |
+| `npm run test:db:reset`   | Reset the isolated test database.       |
+| `npm test`                | Run the serial server scenario tests.   |
+
+## Tests
+
+The Compose stack also starts the isolated `EmpaTestDB` service on `localhost:5433`. In a separate shell, run the test lifecycle with its explicit connection string:
+
+```sh
+export DATABASE_URL='postgresql://postgres:postgres@localhost:5433/EmpaTestDB'
+npm run test:db:migrate
+npm test
+```
+
+The test migration and reset commands reject any URL except `EmpaTestDB` on port `5433` at a local Docker host (`localhost`, loopback, `host.docker.internal`, or `empadb-test`). CI may allow one additional exact hostname through `TEST_DATABASE_CI_HOST`.
 
 ## API, authentication, and security notes
 

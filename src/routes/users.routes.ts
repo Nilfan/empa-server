@@ -57,8 +57,8 @@ function isUniqueViolation(error: unknown): boolean {
   return (
     typeof error === "object" &&
     error !== null &&
-    "code" in error &&
-    error.code === "23505"
+    (("code" in error && error.code === "23505") ||
+      ("cause" in error && isUniqueViolation(error.cause)))
   );
 }
 

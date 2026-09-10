@@ -10,6 +10,18 @@ services:
       POSTGRES_PASSWORD: postgres
     volumes:
       - empadb_data:/var/lib/postgresql/data
+  empadb-test:
+    build: .
+    restart: "no"
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: EmpaTestDB
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - empadb_test_data:/var/lib/postgresql/data
 
 volumes:
   empadb_data:
+  empadb_test_data:

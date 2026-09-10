@@ -7,12 +7,13 @@ const connectionString =
   process.env.DATABASE_URL ??
   "postgresql://postgres:postgres@localhost:5432/EmpaDB";
 
-console.log("connectionString :>> ", connectionString);
+if (process.env.NODE_ENV === "test" && !process.env.DATABASE_URL)
+  throw new Error("DATABASE_URL must be explicitly set when NODE_ENV=test.");
 
-if (!connectionString) {
-  throw new Error("DATABASE_URL must be set to connect to PostgreSQL.");
-}
-
-const pool = new Pool({ connectionString });
+export const pool = new Pool({ connectionString });
 
 export const db = drizzle({ client: pool, schema });
+
+export function closeDatabasePool(): Promise<void> {
+  return pool.end();
+}

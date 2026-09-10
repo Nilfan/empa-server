@@ -148,7 +148,12 @@ function parseEventPatch(
     )
   )
     return null;
-  const merged = { ...current, ...value } as Record<string, unknown>;
+  const merged = {
+    ...current,
+    startAt: current.startAt.toISOString(),
+    endAt: current.endAt.toISOString(),
+    ...value,
+  } as Record<string, unknown>;
   if (!("regularConfig" in value) && value.isRegular === false)
     merged.regularConfig = null;
   return parseEventState(merged);
