@@ -10,7 +10,7 @@ const connectionString =
 if (process.env.NODE_ENV === "test" && !process.env.DATABASE_URL)
   throw new Error("DATABASE_URL must be explicitly set when NODE_ENV=test.");
 
-export const pool = new Pool({ connectionString });
+export const pool = new Pool({ connectionString, ssl: true });
 
 export const db = drizzle({ client: pool, schema });
 
